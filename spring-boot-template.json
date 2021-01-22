@@ -175,7 +175,7 @@
             "imageChangeParams": {
                 "automatic": true,
                 "containerNames": [
-                    "spring-boot"
+                    "${NAME}"
                 ],
                 "from": {
                     "kind": "ImageStreamTag",
