@@ -155,104 +155,74 @@
         }
       },
       "spec": {
-
-      "replicas": 1,
-      "revisionHistoryLimit": 10,
-      "selector": {
-          "deploymentconfig": "${NAME}"
-      },
-      "strategy": {
-          "activeDeadlineSeconds": 21600,
-          "resources": {},
-          "rollingParams": {
-              "intervalSeconds": 1,
-              "maxSurge": "25%",
-              "maxUnavailable": "25%",
-              "timeoutSeconds": 600,
-              "updatePeriodSeconds": 1
+          "replicas": 1,
+          "revisionHistoryLimit": 10,
+          "selector": {
+              "deploymentconfig": "${NAME}"
           },
-          "type": "Rolling"
-      },
-      "template": {
-          "metadata": {
-              "annotations": {
-                  "openshift.io/generated-by": "OpenShiftNewApp"
+          "strategy": {
+              "activeDeadlineSeconds": 21600,
+              "resources": {},
+              "rollingParams": {
+                  "intervalSeconds": 1,
+                  "maxSurge": "25%",
+                  "maxUnavailable": "25%",
+                  "timeoutSeconds": 600,
+                  "updatePeriodSeconds": 1
               },
-              "creationTimestamp": null,
-              "labels": {
-                  "deploymentconfig": "${NAME}"
+              "type": "Rolling"
+          },
+          "template": {
+              "metadata": {
+                  "annotations": {
+                      "openshift.io/generated-by": "OpenShiftNewApp"
+                  },
+                  "creationTimestamp": null,
+                  "labels": {
+                      "deploymentconfig": "${NAME}"
+                  }
+              },
+              "spec": {
+                  "containers": [
+                      {
+                          "image": "${NAME}:latest",
+                          "imagePullPolicy": "Always",
+                          "name": "${NAME}",
+                          "resources": {},
+                          "terminationMessagePath": "/dev/termination-log",
+                          "terminationMessagePolicy": "File"
+                      }
+                  ],
+                  "dnsPolicy": "ClusterFirst",
+                  "restartPolicy": "Always",
+                  "schedulerName": "default-scheduler",
+                  "securityContext": {},
+                  "terminationGracePeriodSeconds": 30
               }
           },
-          "spec": {
-              "replicas": 1,
-              "revisionHistoryLimit": 10,
-              "selector": {
-                  "deploymentconfig": "${NAME}"
+          "test": false,
+          "triggers": [
+              {
+                  "type": "ConfigChange"
               },
-              "strategy": {
-                  "activeDeadlineSeconds": 21600,
-                  "resources": {},
-                  "rollingParams": {
-                      "intervalSeconds": 1,
-                      "maxSurge": "25%",
-                      "maxUnavailable": "25%",
-                      "timeoutSeconds": 600,
-                      "updatePeriodSeconds": 1
-                  },
-                  "type": "Rolling"
-              },
-              "template": {
-                  "metadata": {
-                      "annotations": {
-                          "openshift.io/generated-by": "OpenShiftNewApp"
-                      },
-                      "creationTimestamp": null,
-                      "labels": {
-                          "deploymentconfig": "${NAME}"
+              {
+                  "imageChangeParams": {
+                      "automatic": true,
+                      "containerNames": [
+                          "${NAME}"
+                      ],
+                      "from": {
+                          "kind": "ImageStreamTag",
+                          "name": "${NAME}:latest",
+                          "namespace": "sb-dev-git"
                       }
                   },
-                  "spec": {
-                      "containers": [
-                          {
-                              "image": "${NAME}:latest",
-                              "imagePullPolicy": "Always",
-                              "name": "${NAME}",
-                              "resources": {},
-                              "terminationMessagePath": "/dev/termination-log",
-                              "terminationMessagePolicy": "File"
-                          }
-                      ],
-                      "dnsPolicy": "ClusterFirst",
-                      "restartPolicy": "Always",
-                      "schedulerName": "default-scheduler",
-                      "securityContext": {},
-                      "terminationGracePeriodSeconds": 30
-                  }
-              },
-              "test": false,
-              "triggers": [
-                  {
-                      "type": "ConfigChange"
-                  },
-                  {
-                      "imageChangeParams": {
-                          "automatic": true,
-                          "containerNames": [
-                              "${NAME}"
-                          ],
-                          "from": {
-                              "kind": "ImageStreamTag",
-                              "name": "${NAME}:latest",
-                              "namespace": "sb-dev-git"
-                          }
-                      },
-                      "type": "ImageChange"
-                  }
-              ]
-
+                  "type": "ImageChange"
+              }
+          ]
+        }
       }
-    }
- ],
+   ],
   "parameters": [
     {
       "name": "NAME",
