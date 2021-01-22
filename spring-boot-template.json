@@ -105,6 +105,12 @@
             },
             "type": "Docker"
         },
+        "output": {
+          "to": {
+            "kind": "ImageStreamTag",
+            "name": "${NAME}:latest"
+          }
+        },
         "triggers": [
           {
             "type": "ImageChange"
