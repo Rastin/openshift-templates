@@ -99,27 +99,12 @@
           },
           "contextDir": "${CONTEXT_DIR}"
         },
-        "strategy": {
-          "type": "Source",
-          "sourceStrategy": {
-            "from": {
-              "kind": "ImageStreamTag",
-              "namespace": "${NAMESPACE}",
-              "name": "spring-boot:${SPRING_BOOT_VERSION}"
+        
+         "strategy": {
+            "dockerStrategy": {
+                "dockerfilePath": "Dockerfile"
             },
-            "env": [
-              {
-                "name": "NPM_MIRROR",
-                "value": "${NPM_MIRROR}"
-              }
-            ]
-          }
-        },
-        "output": {
-          "to": {
-            "kind": "ImageStreamTag",
-            "name": "${NAME}:latest"
-          }
+            "type": "Docker"
         },
         "triggers": [
           {
