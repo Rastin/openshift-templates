@@ -105,7 +105,7 @@
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${NAMESPACE}",
-              "name": "spring-boot"
+              "name": "spring-boot:${SPRING_BOOT_VERSION}"
             },
             "env": [
               {
@@ -281,7 +281,20 @@
       "required": true,
       "value": "openshift"
     },
-
+    {
+      "name": "SPRING_BOOT_VERSION",
+      "displayName": "Version of NodeJS Image",
+      "description": "Version of NodeJS image to be used (10, 12, or latest).",
+      "value": "1",
+      "required": true
+    },
+    {
+      "name": "MONGODB_VERSION",
+      "displayName": "Version of MongoDB Image",
+      "description": "Version of MongoDB image to be used (3.6 or latest).",
+      "value": "3.6",
+      "required": true
+    },
     {
       "name": "MEMORY_LIMIT",
       "displayName": "Memory Limit",
