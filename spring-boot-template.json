@@ -288,7 +288,7 @@
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "openshift"
+      "value": "sb-dev-git-v1"
     },
 
     {
