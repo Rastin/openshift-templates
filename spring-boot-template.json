@@ -99,8 +99,7 @@
           },
           "contextDir": "${CONTEXT_DIR}"
         },
-        
-         "strategy": {
+        "strategy": {
             "dockerStrategy": {
                 "dockerfilePath": "Dockerfile"
             },
@@ -125,10 +124,7 @@
               "secret": "${GENERIC_WEBHOOK_SECRET}"
             }
           }
-        ],
-        "postCommit": {
-          "script": "npm test"
-        }
+        ],        
       }
     },
     {
@@ -303,7 +299,8 @@
     {
       "name": "CONTEXT_DIR",
       "displayName": "Context Directory",
-      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+      "description": "Set this to the relative path to your project if it is not in the root of your repository.",
+      "value": "/"
     },
     {
       "name": "APPLICATION_DOMAIN",
