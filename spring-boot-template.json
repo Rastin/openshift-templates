@@ -285,7 +285,7 @@
     {
       "name": "MEMORY_LIMIT",
       "displayName": "Memory Limit",
-      "description": "Maximum amount of memory the Node.js container can use.",
+      "description": "Maximum amount of memory the container can use.",
       "required": true,
       "value": "512Mi"
     },
@@ -353,12 +353,6 @@
       "description": "Password for the database admin user.",
       "generate": "expression",
       "from": "[a-zA-Z0-9]{16}"
-    },
-    {
-      "name": "NPM_MIRROR",
-      "displayName": "Custom NPM Mirror URL",
-      "description": "The custom NPM mirror URL",
-      "value": ""
     }
   ]
 }
