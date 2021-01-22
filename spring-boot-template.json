@@ -147,7 +147,7 @@
         },
         "triggers": [
           {
-            "type": "ImageChange",
+            "type": "ImageChange"
             
           },
           {
