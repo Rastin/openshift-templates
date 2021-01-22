@@ -177,7 +177,7 @@
             "restartPolicy": "Always",
             "schedulerName": "default-scheduler",
             "securityContext": {},
-            "terminationGracePeriodSeconds": 30
+            "terminationGracePeriodSeconds": 30,
             "containers": [
               {
                 "name": "${NAME}",
