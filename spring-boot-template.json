@@ -142,7 +142,7 @@
       },
       "spec": {
         "strategy": {
-          "type": "Recreate"
+          "type": "Rolling"
         },
         "triggers": [
           {
@@ -150,7 +150,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "spring-boot"
+                "${NAME}"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -174,10 +174,14 @@
             }
           },
           "spec": {
+            "restartPolicy": "Always",
+            "schedulerName": "default-scheduler",
+            "securityContext": {},
+            "terminationGracePeriodSeconds": 30
             "containers": [
               {
-                "name": "spring-boot",
-                "image": " ",
+                "name": "${NAME}",
+                "image": "${NAME}:latest",
                 "ports": [
                   {
                     "containerPort": 8080
