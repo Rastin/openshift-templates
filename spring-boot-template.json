@@ -17,7 +17,7 @@
   },
   "message": "The following service(s) have been created in your project: ${NAME}.",
   "labels": {
-      "template": "spring-boot`",
+      "template": "spring-boot",
       "app": "spring-boot"
   },
   "objects": [
