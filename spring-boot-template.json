@@ -157,7 +157,7 @@
                   ],
                   "from": {
                       "kind": "ImageStreamTag",
-                      "name": "${NAME}:latest",
+                      "name": "${NAME}:latest"
                   }
               },
               "type": "ImageChange"
