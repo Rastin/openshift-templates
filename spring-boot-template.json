@@ -155,123 +155,71 @@
         }
       },
       "spec": {
-        "strategy": {
-          "activeDeadlineSeconds": 21600,
-          "resources": {},
-          "rollingParams": {
-              "intervalSeconds": 1,
-              "maxSurge": "25%",
-              "maxUnavailable": "25%",
-              "timeoutSeconds": 600,
-              "updatePeriodSeconds": 1
-              },
-          "type": "Rolling"
-        },
-        "triggers": [
-         {
-          "type": "ConfigChange"
-          },
-          {
-              "imageChangeParams": {
-                  "automatic": true,
-                  "containerNames": [
-                      "${NAME}"
-                  ],
-                  "from": {
-                      "kind": "ImageStreamTag",
-                      "name": "${NAME}:latest"
-                  }
-              },
-              "type": "ImageChange"
-          }
-        ],
-        "replicas": 1,
-        "selector": {
-          "name": "${NAME}"
-        },
-        "template": {
-          "metadata": {
-            "name": "${NAME}",
-            "labels": {
-              "name": "${NAME}"
-            }
-          },
-          "spec": {
-            "containers": [
-              {
-                "name": "${NAME}",
-                "image": " ",
-                "ports": [
-                  {
-                    "containerPort": 8080
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "DATABASE_SERVICE_NAME",
-                    "value": "${DATABASE_SERVICE_NAME}"
-                  },
-                  {
-                    "name": "MONGODB_USER",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-user"
-                      }
-                    }
-                  },
-                  {
-                    "name": "MONGODB_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-password"
-                      }
-                    }
-                  },
-                  {
-                    "name": "MONGODB_DATABASE",
-                    "value": "${DATABASE_NAME}"
-                  },
-                  {
-                    "name": "MONGODB_ADMIN_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-admin-password"
-                      }
-                    }
-                  }
-                ],
-                "readinessProbe": {
-                  "timeoutSeconds": 3,
-                  "initialDelaySeconds": 3,
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080
-                  }
+                 "replicas": 1,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "deploymentconfig": "${NAME}"
                 },
-                "livenessProbe": {
-                  "timeoutSeconds": 3,
-                  "initialDelaySeconds": 30,
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080
-                  }
+                "strategy": {
+                    "activeDeadlineSeconds": 21600,
+                    "resources": {},
+                    "rollingParams": {
+                        "intervalSeconds": 1,
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%",
+                        "timeoutSeconds": 600,
+                        "updatePeriodSeconds": 1
+                    },
+                    "type": "Rolling"
                 },
-                "resources": {
-                  "limits": {
-                    "memory": "${MEMORY_LIMIT}"
-                  }
-                }
-              }
-            ]
+                "template": {
+                    "metadata": {
+                        "annotations": {
+                            "openshift.io/generated-by": "OpenShiftNewApp"
+                        },
+                        "creationTimestamp": null,
+                        "labels": {
+                            "deploymentconfig":"${NAME}"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "image": "${NAME}:latest",
+                                "imagePullPolicy": "Always",
+                                "name": "${NAME}",
+                                "resources": {},
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30
+                    }
+                },
+                "test": false,
+                "triggers": [
+                    {
+                        "type": "ConfigChange"
+                    },
+                    {
+                        "imageChangeParams": {
+                            "automatic": true,
+                            "containerNames": [
+                                "spring-boot"
+                            ],
+                            "from": {
+                                "kind": "ImageStreamTag",
+                                "name": "${NAME}:latest",
+                            }
+                        },
+                        "type": "ImageChange"
+                    }
+                ]
           }
-        }
-      }
-    }
-
-
   ],
 
   "parameters": [
