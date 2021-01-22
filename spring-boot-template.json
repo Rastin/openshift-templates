@@ -1,4 +1,4 @@
-{
+${NAME}${NAME}{
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
@@ -158,7 +158,7 @@
         "replicas": 1,
         "revisionHistoryLimit": 10,
         "selector": {
-            "deploymentconfig": "${NAME}"
+            "name": "${NAME}"
         },
         "strategy": {
             "activeDeadlineSeconds": 21600,
@@ -179,7 +179,7 @@
                 },
                 "creationTimestamp": null,
                 "labels": {
-                    "deploymentconfig": "${NAME}"
+                    "name": "${NAME}"
                 }
             },
             "spec": {
@@ -214,16 +214,14 @@
                     "from": {
                         "kind": "ImageStreamTag",
                         "name": "${NAME}:latest",
-                        "namespace": "sb-dev-git"
+                        "namespace": "${NAMESPACE}"
                     }
                 },
                 "type": "ImageChange"
             }
         ]
-
-
-          }
       }
+    }
    ],
   "parameters": [
     {
@@ -238,21 +236,15 @@
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "openshift"
+      "value": "sb-dev-git-v1"
     },
+
     {
-      "name": "SPRING_BOOT_VERSION",
-      "displayName": "Version of NodeJS Image",
-      "description": "Version of NodeJS image to be used (10, 12, or latest).",
-      "value": "1",
-      "required": true
-    },
-    {
-      "name": "MONGODB_VERSION",
+        "name": "SPRING-BOOT-VERSION",
       "displayName": "Version of MongoDB Image",
       "description": "Version of MongoDB image to be used (3.6 or latest).",
-      "value": "3.6",
-      "required": true
+      "value": "1",
+      "required": false
     },
     {
       "name": "MEMORY_LIMIT",
