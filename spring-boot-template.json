@@ -141,9 +141,9 @@
         "postCommit": {
           "script": ""
         }
-      }      
+      }
     },
-    
+
      {
       "kind": "DeploymentConfig",
       "apiVersion": "v1",
@@ -172,6 +172,17 @@
           "type": "ConfigChange"
           },
           {
+            "imageChangeParams": {
+                "automatic": true,
+                "containerNames": [
+                    "spring-boot"
+                ],
+                "from": {
+                    "kind": "ImageStreamTag",
+                    "name": "${NAME}:latest",
+                    "namespace": "${NAMESPACE}"
+                }
+            },
           "type": "ImageChange"
           }
         ],
@@ -277,7 +288,7 @@
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "openshift"
+      "value": "sb-dev-git-v1"
     },
 
     {
