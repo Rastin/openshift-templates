@@ -166,7 +166,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongodb-example"
+                "spring-boot"
               ],
               "from": {
                 "kind": "ImageStreamTag",
