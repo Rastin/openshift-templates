@@ -146,12 +146,21 @@
           "type": "Recreate"
         },
         "triggers": [
-          {
-            "type": "ImageChange"
-            
+         {
+          "type": "ConfigChange"
           },
           {
-            "type": "ConfigChange"
+              "imageChangeParams": {
+                  "automatic": true,
+                  "containerNames": [
+                      "${NAME}"
+                  ],
+                  "from": {
+                      "kind": "ImageStreamTag",
+                      "name": "${NAME}:latest",
+                  }
+              },
+              "type": "ImageChange"
           }
         ],
         "replicas": 1,
