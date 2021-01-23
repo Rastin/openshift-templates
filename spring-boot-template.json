@@ -575,11 +575,9 @@
             ],
             "name": "${NAME}",
             "namespace": "${NAMESPACE}",
-            "resourceVersion": "128396102",
             "selfLink": "/api/v1/namespaces/${NAMESPACE}/services/${NAME}"
         },
         "spec": {
-            "clusterIP": "192.168.74.49",
             "ports": [
                 {
                     "name": "8080-tcp",
