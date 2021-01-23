@@ -368,7 +368,7 @@
                             "kind": "ImageStreamTag",
                             "name": "${NAME}:latest",
                             "namespace": "${NAMESPACE}"
-                        },
+                        }
                     },
                     "type": "ImageChange"
                 },
