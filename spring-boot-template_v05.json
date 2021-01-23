@@ -1,0 +1,769 @@
+{
+  "kind": "Template",
+  "apiVersion": "v1",
+  "metadata": {
+    "name": "spring-boot",
+    "annotations": {
+      "openshift.io/display-name": "spring boot",
+      "description": "",
+      "tags": "dev",
+      "iconClass": "",
+      "openshift.io/long-description": "This template defines resources needed to develop a spring boot application.",
+      "openshift.io/provider-display-name": "Red Hat, Inc.",
+      "openshift.io/documentation-url": "https://...",
+      "openshift.io/support-url": "https://...",
+      "template.openshift.io/bindable": "false"
+    }
+  },
+  "message": "The following service(s) have been created in your project: ${NAME}.",
+  "labels": {
+      "template": "${NAME}",
+      "app": "${NAME}"
+  },
+  "objects": [
+    {
+        "apiVersion": "build.openshift.io/v1",
+        "kind": "BuildConfig",
+        "metadata": {
+            "annotations": {
+                "app.openshift.io/vcs-ref": "dev",
+                "app.openshift.io/vcs-uri": "https://github.com/Rastin/spring-boot.git",
+                "openshift.io/generated-by": "OpenShiftWebConsole"
+            },
+            "labels": {
+                "app": "${NAME}",
+                  "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "build.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:app.openshift.io/vcs-ref": {},
+                                "f:app.openshift.io/vcs-uri": {},
+                                "f:openshift.io/generated-by": {}
+                            },
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:app.kubernetes.io/component": {},
+                                "f:app.kubernetes.io/instance": {},
+                                "f:app.kubernetes.io/part-of": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:output": {
+                                "f:to": {
+                                    ".": {},
+                                    "f:kind": {},
+                                    "f:name": {}
+                                }
+                            },
+                            "f:runPolicy": {},
+                            "f:source": {
+                                "f:contextDir": {},
+                                "f:git": {
+                                    ".": {},
+                                    "f:ref": {},
+                                    "f:uri": {}
+                                },
+                                "f:type": {}
+                            },
+                            "f:strategy": {
+                                "f:dockerStrategy": {
+                                    ".": {},
+                                    "f:dockerfilePath": {}
+                                },
+                                "f:type": {}
+                            },
+                            "f:triggers": {}
+                        }
+                    },
+                    "manager": "Mozilla",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:52Z"
+                },
+                {
+                    "apiVersion": "build.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:status": {
+                            "f:lastVersion": {}
+                        }
+                    },
+                    "manager": "openshift-apiserver",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:59Z"
+                }
+            ],
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "resourceVersion": "128396114",
+            "selfLink": "/apis/build.openshift.io/v1/namespaces/${NAMESPACE}/buildconfigs/${NAME}"
+        },
+        "spec": {
+            "failedBuildsHistoryLimit": 5,
+            "nodeSelector": null,
+            "output": {
+                "to": {
+                    "kind": "ImageStreamTag",
+                    "name": "${NAME}:latest"
+                }
+            },
+            "postCommit": {},
+            "resources": {},
+            "runPolicy": "Serial",
+            "source": {
+                "contextDir": "/",
+                "git": {
+                    "ref": "dev",
+                    "uri": "https://github.com/Rastin/spring-boot.git"
+                },
+                "type": "Git"
+            },
+            "strategy": {
+                "dockerStrategy": {
+                    "dockerfilePath": "Dockerfile"
+                },
+                "type": "Docker"
+            },
+            "successfulBuildsHistoryLimit": 5,
+            "triggers": [
+                {
+                    "generic": {
+                        "secretReference": {
+                            "name": "${NAME}-generic-webhook-secret"
+                        }
+                    },
+                    "type": "Generic"
+                },
+                {
+                    "github": {
+                        "secretReference": {
+                            "name": "${NAME}-github-webhook-secret"
+                        }
+                    },
+                    "type": "GitHub"
+                },
+                {
+                    "type": "ConfigChange"
+                }
+            ]
+        },
+        "status": {
+            "lastVersion": 1
+        }
+    },
+    {
+        "apiVersion": "apps.openshift.io/v1",
+        "kind": "DeploymentConfig",
+        "metadata": {
+            "annotations": {
+                "app.openshift.io/vcs-ref": "dev",
+                "app.openshift.io/vcs-uri": "https://github.com/Rastin/spring-boot.git",
+                "openshift.io/generated-by": "OpenShiftWebConsole"
+            },
+            "generation": 2,
+            "labels": {
+                "app": "${NAME}",
+                "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "apps.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:app.openshift.io/vcs-ref": {},
+                                "f:app.openshift.io/vcs-uri": {},
+                                "f:openshift.io/generated-by": {}
+                            },
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:app.kubernetes.io/component": {},
+                                "f:app.kubernetes.io/instance": {},
+                                "f:app.kubernetes.io/part-of": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:replicas": {},
+                            "f:selector": {
+                                ".": {},
+                                "f:app": {},
+                                "f:deploymentconfig": {}
+                            },
+                            "f:strategy": {
+                                "f:activeDeadlineSeconds": {},
+                                "f:rollingParams": {
+                                    ".": {},
+                                    "f:intervalSeconds": {},
+                                    "f:maxSurge": {},
+                                    "f:maxUnavailable": {},
+                                    "f:timeoutSeconds": {},
+                                    "f:updatePeriodSeconds": {}
+                                },
+                                "f:type": {}
+                            },
+                            "f:template": {
+                                ".": {},
+                                "f:metadata": {
+                                    ".": {},
+                                    "f:creationTimestamp": {},
+                                    "f:labels": {
+                                        ".": {},
+                                        "f:app": {},
+                                        "f:deploymentconfig": {}
+                                    }
+                                },
+                                "f:spec": {
+                                    ".": {},
+                                    "f:containers": {
+                                        ".": {},
+                                        "k:{\"name\":\"${NAME}\"}": {
+                                            ".": {},
+                                            "f:imagePullPolicy": {},
+                                            "f:name": {},
+                                            "f:resources": {},
+                                            "f:terminationMessagePath": {},
+                                            "f:terminationMessagePolicy": {}
+                                        }
+                                    },
+                                    "f:dnsPolicy": {},
+                                    "f:restartPolicy": {},
+                                    "f:schedulerName": {},
+                                    "f:securityContext": {},
+                                    "f:terminationGracePeriodSeconds": {}
+                                }
+                            }
+                        }
+                    },
+                    "manager": "Mozilla",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:59Z"
+                },
+                {
+                    "apiVersion": "apps.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:spec": {
+                            "f:template": {
+                                "f:spec": {
+                                    "f:containers": {
+                                        "k:{\"name\":\"${NAME}\"}": {
+                                            "f:image": {}
+                                        }
+                                    }
+                                }
+                            },
+                            "f:triggers": {}
+                        },
+                        "f:status": {
+                            "f:availableReplicas": {},
+                            "f:conditions": {
+                                ".": {},
+                                "k:{\"type\":\"Available\"}": {
+                                    ".": {},
+                                    "f:lastTransitionTime": {},
+                                    "f:lastUpdateTime": {},
+                                    "f:message": {},
+                                    "f:status": {},
+                                    "f:type": {}
+                                },
+                                "k:{\"type\":\"Progressing\"}": {
+                                    ".": {},
+                                    "f:lastTransitionTime": {},
+                                    "f:lastUpdateTime": {},
+                                    "f:message": {},
+                                    "f:reason": {},
+                                    "f:status": {},
+                                    "f:type": {}
+                                }
+                            },
+                            "f:details": {
+                                ".": {},
+                                "f:causes": {},
+                                "f:message": {}
+                            },
+                            "f:latestVersion": {},
+                            "f:observedGeneration": {},
+                            "f:readyReplicas": {},
+                            "f:replicas": {},
+                            "f:unavailableReplicas": {},
+                            "f:updatedReplicas": {}
+                        }
+                    },
+                    "manager": "openshift-controller-manager",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:53:46Z"
+                }
+            ],
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "resourceVersion": "128396737",
+            "selfLink": "/apis/apps.openshift.io/v1/namespaces/${NAMESPACE}/deploymentconfigs/${NAME}"
+        },
+        "spec": {
+            "replicas": 1,
+            "revisionHistoryLimit": 10,
+            "selector": {
+                "app": "${NAME}",
+                "deploymentconfig": "${NAME}"
+            },
+            "strategy": {
+                "activeDeadlineSeconds": 21600,
+                "resources": {},
+                "rollingParams": {
+                    "intervalSeconds": 1,
+                    "maxSurge": "25%",
+                    "maxUnavailable": "25%",
+                    "timeoutSeconds": 600,
+                    "updatePeriodSeconds": 1
+                },
+                "type": "Rolling"
+            },
+            "template": {
+                "metadata": {
+                    "creationTimestamp": null,
+                    "labels": {
+                        "app": "${NAME}",
+                        "deploymentconfig": "${NAME}"
+                    }
+                },
+                "spec": {
+                    "containers": [
+                        {
+                            "imagePullPolicy": "Always",
+                            "name": "${NAME}",
+                            "resources": {},
+                            "terminationMessagePath": "/dev/termination-log",
+                            "terminationMessagePolicy": "File"
+                        }
+                    ],
+                    "dnsPolicy": "ClusterFirst",
+                    "restartPolicy": "Always",
+                    "schedulerName": "default-scheduler",
+                    "securityContext": {},
+                    "terminationGracePeriodSeconds": 30
+                }
+            },
+            "test": false,
+            "triggers": [
+                {
+                    "imageChangeParams": {
+                        "automatic": true,
+                        "containerNames": [
+                            "${NAME}"
+                        ],
+                        "from": {
+                            "kind": "ImageStreamTag",
+                            "name": "${NAME}:latest",
+                            "namespace": "${NAMESPACE}"
+                        }
+                    },
+                    "type": "ImageChange"
+                },
+                {
+                    "type": "ConfigChange"
+                }
+            ]
+        },
+        "status": {
+            "availableReplicas": 1,
+            "conditions": [
+                {
+                    "lastTransitionTime": "2021-01-23T00:53:35Z",
+                    "lastUpdateTime": "2021-01-23T00:53:35Z",
+                    "message": "Deployment config has minimum availability.",
+                    "status": "True",
+                    "type": "Available"
+                },
+                {
+                    "lastTransitionTime": "2021-01-23T00:53:36Z",
+                    "lastUpdateTime": "2021-01-23T00:53:36Z",
+                    "message": "replication controller \"${NAME}-1\" successfully rolled out",
+                    "reason": "NewReplicationControllerAvailable",
+                    "status": "True",
+                    "type": "Progressing"
+                }
+            ],
+            "details": {
+                "causes": [
+                    {
+                        "type": "ConfigChange"
+                    }
+                ],
+                "message": "config change"
+            },
+            "latestVersion": 1,
+            "observedGeneration": 2,
+            "readyReplicas": 1,
+            "replicas": 1,
+            "unavailableReplicas": 0,
+            "updatedReplicas": 1
+        }
+    },
+    {
+        "apiVersion": "route.openshift.io/v1",
+        "kind": "Route",
+        "metadata": {
+            "annotations": {
+                "openshift.io/host.generated": "true"
+            },
+            "labels": {
+                "app": "${NAME}",
+                "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "route.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:status": {
+                            "f:ingress": {}
+                        }
+                    },
+                    "manager": "openshift-router",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:52Z"
+                },
+                {
+                    "apiVersion": "route.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:app.kubernetes.io/component": {},
+                                "f:app.kubernetes.io/instance": {},
+                                "f:app.kubernetes.io/part-of": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:port": {
+                                ".": {},
+                                "f:targetPort": {}
+                            },
+                            "f:tls": {
+                                ".": {},
+                                "f:insecureEdgeTerminationPolicy": {},
+                                "f:termination": {}
+                            },
+                            "f:to": {
+                                "f:kind": {},
+                                "f:name": {},
+                                "f:weight": {}
+                            },
+                            "f:wildcardPolicy": {}
+                        }
+                    },
+                    "manager": "Mozilla",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:59Z"
+                }
+            ],
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "resourceVersion": "128396117",
+            "selfLink": "/apis/route.openshift.io/v1/namespaces/${NAMESPACE}/routes/${NAME}"
+        },
+        "spec": {
+            "host": "${NAME}-${NAMESPACE}.apps.ocpdtq.labcorp.com",
+            "port": {
+                "targetPort": "8080-tcp"
+            },
+            "tls": {
+                "insecureEdgeTerminationPolicy": "Allow",
+                "termination": "edge"
+            },
+            "to": {
+                "kind": "Service",
+                "name": "${NAME}",
+                "weight": 100
+            },
+            "wildcardPolicy": "None"
+        },
+        "status": {
+            "ingress": [
+                {
+                    "conditions": [
+                        {
+                            "lastTransitionTime": "2021-01-23T00:52:57Z",
+                            "status": "True",
+                            "type": "Admitted"
+                        }
+                    ],
+                    "host": "${NAME}-${NAMESPACE}.apps.ocpdtq.labcorp.com",
+                    "routerCanonicalHostname": "apps.ocpdtq.labcorp.com",
+                    "routerName": "default",
+                    "wildcardPolicy": "None"
+                }
+            ]
+        }
+    },
+    {
+        "apiVersion": "v1",
+        "kind": "Service",
+        "metadata": {
+            "annotations": {
+                "app.openshift.io/vcs-ref": "dev",
+                "app.openshift.io/vcs-uri": "https://github.com/Rastin/spring-boot.git",
+                "openshift.io/generated-by": "OpenShiftWebConsole"
+            },
+            "labels": {
+                "app": "${NAME}",
+                "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:app.openshift.io/vcs-ref": {},
+                                "f:app.openshift.io/vcs-uri": {},
+                                "f:openshift.io/generated-by": {}
+                            },
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:app.kubernetes.io/component": {},
+                                "f:app.kubernetes.io/instance": {},
+                                "f:app.kubernetes.io/part-of": {}
+                            }
+                        },
+                        "f:spec": {
+                            "f:ports": {
+                                ".": {},
+                                "k:{\"port\":8080,\"protocol\":\"TCP\"}": {
+                                    ".": {},
+                                    "f:name": {},
+                                    "f:port": {},
+                                    "f:protocol": {},
+                                    "f:targetPort": {}
+                                }
+                            },
+                            "f:selector": {
+                                ".": {},
+                                "f:app": {},
+                                "f:deploymentconfig": {}
+                            },
+                            "f:sessionAffinity": {},
+                            "f:type": {}
+                        }
+                    },
+                    "manager": "Mozilla",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:52Z"
+                }
+            ],
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "selfLink": "/api/v1/namespaces/${NAMESPACE}/services/${NAME}"
+        },
+        "spec": {
+            "ports": [
+                {
+                    "name": "8080-tcp",
+                    "port": 8080,
+                    "protocol": "TCP",
+                    "targetPort": 8080
+                }
+            ],
+            "selector": {
+                "app": "${NAME}",
+                "deploymentconfig": "${NAME}"
+            },
+            "sessionAffinity": "None",
+            "type": "ClusterIP"
+        },
+        "status": {
+            "loadBalancer": {}
+        }
+    },
+    {
+        "apiVersion": "image.openshift.io/v1",
+        "kind": "ImageStream",
+        "metadata": {
+            "annotations": {
+                "app.openshift.io/vcs-ref": "dev",
+                "app.openshift.io/vcs-uri": "https://github.com/Rastin/spring-boot.git",
+                "openshift.io/generated-by": "OpenShiftWebConsole"
+            },
+            "generation": 1,
+            "labels": {
+                "app": "${NAME}",
+                "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "managedFields": [
+                {
+                    "apiVersion": "image.openshift.io/v1",
+                    "fieldsType": "FieldsV1",
+                    "fieldsV1": {
+                        "f:metadata": {
+                            "f:annotations": {
+                                ".": {},
+                                "f:app.openshift.io/vcs-ref": {},
+                                "f:app.openshift.io/vcs-uri": {},
+                                "f:openshift.io/generated-by": {}
+                            },
+                            "f:labels": {
+                                ".": {},
+                                "f:app": {},
+                                "f:app.kubernetes.io/component": {},
+                                "f:app.kubernetes.io/instance": {},
+                                "f:app.kubernetes.io/part-of": {}
+                            }
+                        }
+                    },
+                    "manager": "Mozilla",
+                    "operation": "Update",
+                    "time": "2021-01-23T00:52:59Z"
+                }
+            ],
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "resourceVersion": "128396598",
+            "selfLink": "/apis/image.openshift.io/v1/namespaces/${NAMESPACE}/imagestreams/${NAME}"
+        },
+        "spec": {
+            "lookupPolicy": {
+                "local": false
+            }
+        },
+        "status": {
+            "dockerImageRepository": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${NAME}",
+            "publicDockerImageRepository": "default-route-openshift-image-registry.apps.ocpdtq.labcorp.com/${NAMESPACE}/${NAME}",
+            "tags": [
+                {
+                    "items": [
+                        {
+                            "created": "2021-01-23T00:53:27Z",
+                            "dockerImageReference": "image-registry.openshift-image-registry.svc:5000/${NAMESPACE}/${NAME}@sha256:5a619e2e3f02add854ede6dfa508f42e10f6b258d4f7a3fdf9059369442039b5",
+                            "generation": 1,
+                            "image": "sha256:5a619e2e3f02add854ede6dfa508f42e10f6b258d4f7a3fdf9059369442039b5"
+                        }
+                    ],
+                    "tag": "latest"
+                }
+            ]
+        }
+    }
+  ],
+
+  "parameters": [
+    {
+      "name": "NAME",
+      "displayName": "Name",
+      "description": "The name assigned to all of the frontend objects defined in this template.",
+      "required": true,
+      "value": "spring-boot"
+    },
+    {
+      "name": "NAMESPACE",
+      "displayName": "Namespace",
+      "description": "The OpenShift Namespace where the ImageStream resides.",
+      "required": true,
+      "value": "sb-dev-git-v2"
+    },
+
+    {
+      "name": "MONGODB_VERSION",
+      "displayName": "Version of MongoDB Image",
+      "description": "Version of MongoDB image to be used (3.6 or latest).",
+      "value": "3.6",
+      "required": true
+    },
+    {
+      "name": "MEMORY_LIMIT",
+      "displayName": "Memory Limit",
+      "description": "Maximum amount of memory the container can use.",
+      "required": true,
+      "value": "512Mi"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_URL",
+      "displayName": "Git Repository URL",
+      "description": "The URL of the repository with your application source code.",
+      "required": true,
+      "value": "https://github.com/Rastin/spring-boot.git"
+    },
+    {
+      "name": "SOURCE_REPOSITORY_REF",
+      "displayName": "Git Reference",
+      "description": "Set this to a branch name, tag or other ref of your repository if you are not using the default branch.",
+      "value": "dev"
+    },
+    {
+      "name": "CONTEXT_DIR",
+      "displayName": "Context Directory",
+      "description": "Set this to the relative path to your project if it is not in the root of your repository.",
+      "value": "/"
+    },
+    {
+      "name": "APPLICATION_DOMAIN",
+      "displayName": "Application Hostname",
+      "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted.",
+      "value": ""
+    },
+    {
+      "name": "GITHUB_WEBHOOK_SECRET",
+      "displayName": "GitHub Webhook Secret",
+      "description": "Github trigger secret.  A difficult to guess string encoded as part of the webhook URL.  Not encrypted.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "GENERIC_WEBHOOK_SECRET",
+      "displayName": "Generic Webhook Secret",
+      "description": "A secret string used to configure the Generic webhook.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{40}"
+    },
+    {
+      "name": "DATABASE_USER",
+      "displayName": "MongoDB Username",
+      "description": "Username for MongoDB user that will be used for accessing the database.",
+      "generate": "expression",
+      "from": "user[A-Z0-9]{3}"
+    },
+    {
+      "name": "DATABASE_PASSWORD",
+      "displayName": "MongoDB Password",
+      "description": "Password for the MongoDB user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    },
+    {
+      "name": "DATABASE_NAME",
+      "displayName": "Database Name",
+      "required": true,
+      "value": "sampledb"
+    },
+    {
+      "name": "DATABASE_ADMIN_PASSWORD",
+      "displayName": "Database Administrator Password",
+      "description": "Password for the database admin user.",
+      "generate": "expression",
+      "from": "[a-zA-Z0-9]{16}"
+    }
+  ]
+}
