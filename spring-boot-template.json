@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "spring-boot",
+    "name": "${NAME}",
     "annotations": {
       "openshift.io/display-name": "Spring Boot",
       "description": "An example Node.js application with a MongoDB database. For more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md.\n\nWARNING: Any data stored will be lost upon pod destruction. Only use this template for testing.",
@@ -100,12 +100,13 @@
           "contextDir": "${CONTEXT_DIR}"
         },
         "strategy": {
-          "type": "Source",
-          "sourceStrategy": {
+      
+          "type": "Docker",
+          "dockerStrategy": {
             "from": {
               "kind": "ImageStreamTag",
               "namespace": "${NAMESPACE}",
-              "name": "nodejs:${NODEJS_VERSION}"
+              "name": "${NAME}:dev"
             },
             "env": [
               {
