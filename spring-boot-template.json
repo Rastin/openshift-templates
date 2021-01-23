@@ -2,7 +2,7 @@
   "kind": "Template",
   "apiVersion": "v1",
   "metadata": {
-    "name": "${NAME}",
+    "name": "spring-boot",
     "annotations": {
       "openshift.io/display-name": "spring boot",
       "description": "",
