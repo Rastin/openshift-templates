@@ -68,7 +68,7 @@
             "targetPort": "8080-tcp"
         },
         "tls": {
-            "insecureEdgeTerminationPolicy": "None",
+            "insecureEdgeTerminationPolicy": "Allow",
             "termination": "edge"
         },
         "to": {
