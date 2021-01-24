@@ -329,7 +329,7 @@
                     "timeoutSeconds": 600,
                     "updatePeriodSeconds": 1
                 },
-                "type": "Recreate"
+                "type": "Rolling"
             },
             "template": {
                 "metadata": {
