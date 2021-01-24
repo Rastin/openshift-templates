@@ -144,7 +144,7 @@
         "postCommit": {
           "script": "npm test"
         }
-      }
+      
     },
     {
       "kind": "DeploymentConfig",
