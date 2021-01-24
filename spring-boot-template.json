@@ -100,12 +100,10 @@
           "contextDir": "${CONTEXT_DIR}"
         },
         "strategy": {
-          "type": "Docker",
-          "sourceStrategy": {
-            "dockerStrategy": {
-                "dockerfilePath": "Dockerfile"
-            },
-            "type": "Docker"
+              "dockerStrategy": {
+                  "dockerfilePath": "Dockerfile"
+              },
+              "type": "Docker"
             },
             "env": [
               {
@@ -144,7 +142,7 @@
         "postCommit": {
           "script": "npm test"
         }
-      
+
     },
     {
       "kind": "DeploymentConfig",
