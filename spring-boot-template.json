@@ -63,11 +63,21 @@
         "name": "${NAME}"
       },
       "spec": {
-        "host": "${APPLICATION_DOMAIN}",
-        "to": {
-          "kind": "Service",
-          "name": "${NAME}"
-        }
+            "host": "${NAME}-${NAMESPACE}-${APPLICATION_DOMAIN}",
+            "port": {
+                "targetPort": "8080-tcp"
+            },
+            "tls": {
+                "insecureEdgeTerminationPolicy": "Allow",
+                "termination": "edge"
+            },
+            "to": {
+                "kind": "Service",
+                "name": "${NAME}",
+                "weight": 100
+            },
+            "wildcardPolicy": "None"
+
       }
     },
     {
@@ -270,7 +280,7 @@
       "name": "APPLICATION_DOMAIN",
       "displayName": "Application Hostname",
       "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted.",
-      "value": ""
+      "value": "apps.ocpdtq.labcorp.com"
     },
     {
       "name": "GITHUB_WEBHOOK_SECRET",
