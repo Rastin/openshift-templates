@@ -134,25 +134,24 @@
             },
             "successfulBuildsHistoryLimit": 5,
             "triggers": [
-                {
-                    "generic": {
-                        "secretReference": {
-                            "name": "${NAME}-generic-webhook-secret"
-                        }
-                    },
-                    "type": "Generic"
-                },
-                {
-                    "github": {
-                        "secretReference": {
-                            "name": "${NAME}-github-webhook-secret"
-                        }
-                    },
-                    "type": "GitHub"
-                },
-                {
-                    "type": "ConfigChange"
+              {
+                "type": "ImageChange"
+              },
+              {
+                "type": "ConfigChange"
+              },
+              {
+                "type": "GitHub",
+                "github": {
+                  "secret": "${GITHUB_WEBHOOK_SECRET}"
                 }
+              },
+              {
+                "type": "Generic",
+                "generic": {
+                "secret": "${GENERIC_WEBHOOK_SECRET}"
+                }
+              }
             ]
         },
         "status": {
