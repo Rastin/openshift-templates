@@ -98,7 +98,7 @@
                     "wildcardPolicy": "None"
                 }
             ]
-        },
+        }
     {
       "kind": "ImageStream",
       "apiVersion": "v1",
