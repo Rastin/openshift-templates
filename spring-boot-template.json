@@ -153,7 +153,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongodb-example"
+                "${NAME}"
               ],
               "from": {
                 "kind": "ImageStreamTag",
