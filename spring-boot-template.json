@@ -358,23 +358,25 @@
             },
             "test": false,
             "triggers": [
-                {
-                    "imageChangeParams": {
-                        "automatic": true,
-                        "containerNames": [
-                            "${NAME}"
-                        ],
-                        "from": {
-                            "kind": "ImageStreamTag",
-                            "name": "${NAME}:latest",
-                            "namespace": "${NAMESPACE}"
-                        }
-                    },
-                    "type": "ImageChange"
-                },
-                {
-                    "type": "ConfigChange"
+              {
+                "type": "ImageChange"
+              },
+              {
+                "type": "ConfigChange"
+              },
+              {
+                "type": "GitHub",
+                "github": {
+                  "secret": "${GITHUB_WEBHOOK_SECRET}"
                 }
+              },
+              {
+                "type": "Generic",
+                "generic": {
+                  "secret": "${GENERIC_WEBHOOK_SECRET}"
+                }
+              }
+
             ]
         },
         "status": {
