@@ -44,8 +44,6 @@
         }
       },
       "spec": {
-        "ports": [
-          "clusterIP": "192.168.204.167",
           "ports": [
               {
                   "name": "8080-tcp",
@@ -60,7 +58,7 @@
           },
           "sessionAffinity": "None",
           "type": "ClusterIP"
-      },,
+      },
       "status": {
           "loadBalancer": {}
       }
