@@ -33,7 +33,29 @@
         "database-admin-password" : "${DATABASE_ADMIN_PASSWORD}"
       }
     },
-
+    {
+      "kind": "Service",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Exposes and load balances the application pods",
+          "service.alpha.openshift.io/dependencies": ""
+        }
+      },
+      "spec": {
+        "ports": [
+          {
+            "name": "web",
+            "port": 8080,
+            "targetPort": 8080
+          }
+        ],
+        "selector": {
+          "name": "${NAME}"
+        }
+      }
+    },
     {
         "apiVersion": "route.openshift.io/v1",
         "kind": "Route",
