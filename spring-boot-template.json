@@ -60,18 +60,8 @@
         "apiVersion": "route.openshift.io/v1",
         "kind": "Route",
         "metadata": {
-            "annotations": {
-                "openshift.io/host.generated": "true"
-            },
-            "labels": {
-                "app": "${NAME}",
-                "app.kubernetes.io/component": "${NAME}",
-                "app.kubernetes.io/instance": "${NAME}",
-                "app.kubernetes.io/part-of": "${NAME}-app"
-            },
             "name": "${NAME}",
             "namespace": "${NAMESPACE}",
-            "selfLink": "/apis/route.openshift.io/v1/namespaces/${NAMESPACE}/routes/${NAME}"
         },
         "spec": {
             "host": "${NAME}-${NAMESPACE}.${APPLICATION_DOMAIN}",
@@ -109,17 +99,7 @@
         }
       },
       "spec": {
-        "failedBuildsHistoryLimit": 5,
-        "nodeSelector": null,
-        "output": {
-            "to": {
-                "kind": "ImageStreamTag",
-                "name": "${NAME}:latest"
-            }
-        },
-        "postCommit": {},
-        "resources": {},
-        "runPolicy": "Serial",
+
         "source": {
             "contextDir": "/",
             "git": {
@@ -134,7 +114,6 @@
             },
             "type": "Docker"
         },
-        "successfulBuildsHistoryLimit": 5,
         "output": {
             "to": {
               "kind": "ImageStreamTag",
@@ -197,7 +176,14 @@
             "type": "ConfigChange"
           }
         ],
+        "replicas": 1,
+          "selector": {
+            "name": "${NAME}"
+          },
+
         "template": {
+          "name": "${NAME}",
+
             "metadata": {
                 "labels": {
                   "name": "${NAME}"
@@ -209,12 +195,6 @@
                     {
                       "name": "${NAME}",
 
-                        "image": "",
-                        "imagePullPolicy": "Always",
-                        "name": "${NAME}",
-                        "resources": {},
-                        "terminationMessagePath": "/dev/termination-log",
-                        "terminationMessagePolicy": "File",
                     "ports": [
                         {
                           "containerPort": 8080
@@ -222,12 +202,7 @@
                       ]
 
                     }
-                ],
-                "dnsPolicy": "ClusterFirst",
-                "restartPolicy": "Always",
-                "schedulerName": "default-scheduler",
-                "securityContext": {},
-                "terminationGracePeriodSeconds": 30
+                ]
             }
         },
         "test": false
