@@ -57,13 +57,24 @@
       }
     },
     {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}"
-      },
-      "spec": {
-            "host": "${NAME}-${NAMESPACE}-${APPLICATION_DOMAIN}",
+        "apiVersion": "route.openshift.io/v1",
+        "kind": "Route",
+        "metadata": {
+            "annotations": {
+                "openshift.io/host.generated": "true"
+            },
+            "labels": {
+                "app": "${NAME}",
+                "app.kubernetes.io/component": "${NAME}",
+                "app.kubernetes.io/instance": "${NAME}",
+                "app.kubernetes.io/part-of": "${NAME}-app"
+            },
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}",
+            "selfLink": "/apis/route.openshift.io/v1/namespaces/${NAMESPACE}/routes/${NAME}"
+        },
+        "spec": {
+            "host": "${NAME}-${NAMESPACE}.${APPLICATION_DOMAIN}",
             "port": {
                 "targetPort": "8080-tcp"
             },
@@ -77,9 +88,17 @@
                 "weight": 100
             },
             "wildcardPolicy": "None"
-
-      }
-    },
+        },
+        "status": {
+            "ingress": [
+                {
+                    "host": "${NAME}-${NAMESPACE}.${APPLICATION_DOMAIN}",
+                    "routerCanonicalHostname": "${APPLICATION_DOMAIN}",
+                    "routerName": "default",
+                    "wildcardPolicy": "None"
+                }
+            ]
+        },
     {
       "kind": "ImageStream",
       "apiVersion": "v1",
