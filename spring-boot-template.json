@@ -45,15 +45,24 @@
       },
       "spec": {
         "ports": [
-          {
-            "name": "web",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "${NAME}"
-        }
+          "clusterIP": "192.168.204.167",
+          "ports": [
+              {
+                  "name": "8080-tcp",
+                  "port": 8080,
+                  "protocol": "TCP",
+                  "targetPort": 8080
+              }
+          ],
+          "selector": {
+              "app": "${NAME}",
+              "deploymentconfig": "${NAME}"
+          },
+          "sessionAffinity": "None",
+          "type": "ClusterIP"
+      },,
+      "status": {
+          "loadBalancer": {}
       }
     },
     {
@@ -164,7 +173,7 @@
               "updatePeriodSeconds": 1
           },
           "type": "Rolling"
-          
+
         },
         "triggers": [
           {
