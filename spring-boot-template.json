@@ -100,18 +100,10 @@
           "contextDir": "${CONTEXT_DIR}"
         },
         "strategy": {
-              "dockerStrategy": {
-                  "dockerfilePath": "Dockerfile"
-              },
-              "type": "Docker"
-            },
-            "env": [
-              {
-                "name": "NPM_MIRROR",
-                "value": "${NPM_MIRROR}"
-              }
-            ]
-          }
+          "dockerStrategy": {
+              "dockerfilePath": "Dockerfile"
+          },
+          "type": "Docker"
         },
         "output": {
           "to": {
@@ -135,7 +127,7 @@
           {
             "type": "Generic",
             "generic": {
-              "secret": "${GENERIC_WEBHOOK_SECRET}"
+            "secret": "${GENERIC_WEBHOOK_SECRET}"
             }
           }
         ],
