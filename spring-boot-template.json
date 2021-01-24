@@ -358,7 +358,20 @@
             },
             "test": false,
             "triggers": [
+
               {
+                "imageChangeParams": {
+                    "automatic": true,
+                    "containerNames": [
+                        "${NAME}"
+                    ],
+                    "from": {
+                        "kind": "ImageStreamTag",
+                        "name": "${NAME}:latest",
+                        "namespace": "${NAMESPACE}"
+                    }
+                },
+
                 "type": "ImageChange"
               },
               {
@@ -377,7 +390,9 @@
                 }
               }
 
-            ]
+
+
+        ]
         },
         "status": {
             "availableReplicas": 1,
