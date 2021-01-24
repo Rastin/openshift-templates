@@ -61,7 +61,7 @@
         "kind": "Route",
         "metadata": {
             "name": "${NAME}",
-            "namespace": "${NAMESPACE}",
+            "namespace": "${NAMESPACE}"
         },
         "spec": {
             "host": "${NAME}-${NAMESPACE}.${APPLICATION_DOMAIN}",
@@ -77,7 +77,7 @@
                 "name": "${NAME}"
             }
         }
-      },
+    },
     {
       "kind": "ImageStream",
       "apiVersion": "v1",
