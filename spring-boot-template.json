@@ -53,16 +53,11 @@
               }
           ],
           "selector": {
-              "app": "${NAME}",
-              "deploymentconfig": "${NAME}"
+              "name": "${NAME}"
+              }
+            }
           },
-          "sessionAffinity": "None",
-          "type": "ClusterIP"
-      },
-      "status": {
-          "loadBalancer": {}
-      }
-    },
+
     {
         "apiVersion": "route.openshift.io/v1",
         "kind": "Route",
@@ -148,6 +143,70 @@
             }
           }
         ]
+      }
+    },
+    {
+      "kind": "DeploymentConfig",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "${NAME}",
+        "annotations": {
+          "description": "Defines how to deploy the application server",
+          "template.alpha.openshift.io/wait-for-ready": "true"
+        }
+      },
+      "spec": {
+        "strategy": {
+
+
+          "type": "Recreate"
+
+        },
+        "triggers": [
+          {
+            "type": "ImageChange",
+            "imageChangeParams": {
+              "automatic": true,
+              "containerNames": [
+                "${NAME}"
+              ],
+              "from": {
+                "kind": "ImageStreamTag",
+                "name": "${NAME}:latest"
+              }
+            }
+          },
+          {
+            "type": "ConfigChange"
+          }
+        ],
+        "replicas": 1,
+          "selector": {
+            "name": "${NAME}"
+          },
+
+        "template": {
+          "name": "${NAME}",
+
+            "metadata": {
+                "labels": {
+                  "name": "${NAME}"
+
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                      "name": "${NAME}",
+                      "imagePullPolicy": "Always"
+
+
+                    }
+                ]
+            }
+        },
+        "test": false
+
       }
     }
   ],
