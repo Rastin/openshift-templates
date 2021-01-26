@@ -4,21 +4,21 @@
   "metadata": {
     "name": "spring-boot",
     "annotations": {
-      "openshift.io/display-name": "spring boot",
-      "description": "",
-      "tags": "dev",
-      "iconClass": "",
-      "openshift.io/long-description": "This template defines resources needed to develop a spring boot application.",
+      "openshift.io/display-name": "Spring boot",
+      "description": "An example Node.js application with a Spring Boot.",
+      "tags": "quickstart,nodejs,hidden",
+      "iconClass": "icon-nodejs",
+      "openshift.io/long-description": "This template defines resources needed to develop a NodeJS application, including a build configuration, application deployment configuration, and database deployment configuration.  The database is stored in non-persistent storage, so this configuration should be used for experimental purposes only.",
       "openshift.io/provider-display-name": "Red Hat, Inc.",
-      "openshift.io/documentation-url": "https://...",
-      "openshift.io/support-url": "https://...",
+      "openshift.io/documentation-url": "https://github.com/sclorg/nodejs-ex",
+      "openshift.io/support-url": "https://access.redhat.com",
       "template.openshift.io/bindable": "false"
     }
   },
-  "message": "The following service(s) have been created in your project: ${NAME}.",
+  "message": "The following service(s) have been created in your project: ${NAME}, ${DATABASE_SERVICE_NAME}.\n\nFor more information about using this template, including OpenShift considerations, see https://github.com/sclorg/nodejs-ex/blob/master/README.md.",
   "labels": {
-      "template": "spring-boot`",
-      "app": "spring-boot"
+      "template": "${NAME}",
+      "app": "${NAME}"
   },
   "objects": [
     {
@@ -40,35 +40,45 @@
         "name": "${NAME}",
         "annotations": {
           "description": "Exposes and load balances the application pods",
-          "service.alpha.openshift.io/dependencies": "[{\"name\": \"${DATABASE_SERVICE_NAME}\", \"kind\": \"Service\"}]"
+          "service.alpha.openshift.io/dependencies": ""
         }
       },
       "spec": {
-        "ports": [
-          {
-            "name": "web",
-            "port": 8080,
-            "targetPort": 8080
-          }
-        ],
-        "selector": {
-          "name": "${NAME}"
-        }
-      }
-    },
+          "ports": [
+              {
+                  "name": "8080-tcp",
+                  "port": 8080,
+                  "protocol": "TCP",
+                  "targetPort": 8080
+              }
+          ],
+          "selector": {
+              "name": "${NAME}"
+              }
+            }
+          },
+
     {
-      "kind": "Route",
-      "apiVersion": "v1",
-      "metadata": {
-        "name": "${NAME}"
-      },
-      "spec": {
-        "host": "${APPLICATION_DOMAIN}",
-        "to": {
-          "kind": "Service",
-          "name": "${NAME}"
+        "apiVersion": "route.openshift.io/v1",
+        "kind": "Route",
+        "metadata": {
+            "name": "${NAME}",
+            "namespace": "${NAMESPACE}"
+        },
+        "spec": {
+            "host": "${NAME}-${NAMESPACE}.${APPLICATION_DOMAIN}",
+            "port": {
+                "targetPort": "8080-tcp"
+            },
+            "tls": {
+                "insecureEdgeTerminationPolicy": "Allow",
+                "termination": "edge"
+            },
+            "to": {
+                "kind": "Service",
+                "name": "${NAME}"
+            }
         }
-      }
     },
     {
       "kind": "ImageStream",
@@ -91,36 +101,28 @@
         }
       },
       "spec": {
+
         "source": {
-          "type": "Git",
-          "git": {
-            "uri": "${SOURCE_REPOSITORY_URL}",
-            "ref": "${SOURCE_REPOSITORY_REF}"
-          },
-          "contextDir": "${CONTEXT_DIR}"
+            "contextDir": "/",
+            "git": {
+                "ref": "dev",
+                "uri": "https://github.com/Rastin/spring-boot.git"
+            },
+            "type": "Git"
         },
         "strategy": {
-          "type": "Source",
-          "sourceStrategy": {
-            "from": {
-              "kind": "ImageStreamTag",
-              "namespace": "${NAMESPACE}",
-              "name": "nodejs:${NODEJS_VERSION}"
+            "dockerStrategy": {
+                "dockerfilePath": "Dockerfile"
             },
-            "env": [
-              {
-                "name": "NPM_MIRROR",
-                "value": "${NPM_MIRROR}"
-              }
-            ]
-          }
+            "type": "Docker"
         },
         "output": {
-          "to": {
-            "kind": "ImageStreamTag",
-            "name": "${NAME}:latest"
-          }
-        },
+            "to": {
+              "kind": "ImageStreamTag",
+              "name": "${NAME}:latest"
+            }
+          },
+
         "triggers": [
           {
             "type": "ImageChange"
@@ -137,13 +139,10 @@
           {
             "type": "Generic",
             "generic": {
-              "secret": "${GENERIC_WEBHOOK_SECRET}"
+            "secret": "${GENERIC_WEBHOOK_SECRET}"
             }
           }
-        ],
-        "postCommit": {
-          "script": "npm test"
-        }
+        ]
       }
     },
     {
@@ -158,7 +157,10 @@
       },
       "spec": {
         "strategy": {
+
+
           "type": "Recreate"
+
         },
         "triggers": [
           {
@@ -166,7 +168,7 @@
             "imageChangeParams": {
               "automatic": true,
               "containerNames": [
-                "nodejs-mongodb-example"
+                "${NAME}"
               ],
               "from": {
                 "kind": "ImageStreamTag",
@@ -179,93 +181,35 @@
           }
         ],
         "replicas": 1,
-        "selector": {
-          "name": "${NAME}"
-        },
-        "template": {
-          "metadata": {
-            "name": "${NAME}",
-            "labels": {
-              "name": "${NAME}"
-            }
+          "selector": {
+            "name": "${NAME}"
           },
-          "spec": {
-            "containers": [
-              {
-                "name": "spring-boot",
-                "image": " ",
-                "ports": [
-                  {
-                    "containerPort": 8080
-                  }
-                ],
-                "env": [
-                  {
-                    "name": "DATABASE_SERVICE_NAME",
-                    "value": "${DATABASE_SERVICE_NAME}"
-                  },
-                  {
-                    "name": "MONGODB_USER",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-user"
-                      }
-                    }
-                  },
-                  {
-                    "name": "MONGODB_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-password"
-                      }
-                    }
-                  },
-                  {
-                    "name": "MONGODB_DATABASE",
-                    "value": "${DATABASE_NAME}"
-                  },
-                  {
-                    "name": "MONGODB_ADMIN_PASSWORD",
-                    "valueFrom": {
-                      "secretKeyRef" : {
-                        "name" : "${NAME}",
-                        "key" : "database-admin-password"
-                      }
-                    }
-                  }
-                ],
-                "readinessProbe": {
-                  "timeoutSeconds": 3,
-                  "initialDelaySeconds": 3,
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080
-                  }
-                },
-                "livenessProbe": {
-                  "timeoutSeconds": 3,
-                  "initialDelaySeconds": 30,
-                  "httpGet": {
-                    "path": "/",
-                    "port": 8080
-                  }
-                },
-                "resources": {
-                  "limits": {
-                    "memory": "${MEMORY_LIMIT}"
-                  }
+
+        "template": {
+          "name": "${NAME}",
+
+            "metadata": {
+                "labels": {
+                  "name": "${NAME}"
+
                 }
-              }
-            ]
-          }
-        }
+            },
+            "spec": {
+                "containers": [
+                    {
+                      "name": "${NAME}",
+                      "imagePullPolicy": "Always"
+
+
+                    }
+                ]
+            }
+        },
+        "test": false
+
       }
     }
-
   ],
-
   "parameters": [
     {
       "name": "NAME",
@@ -279,13 +223,20 @@
       "displayName": "Namespace",
       "description": "The OpenShift Namespace where the ImageStream resides.",
       "required": true,
-      "value": "openshift"
+      "value": "sb-dev"
     },
 
     {
+      "name": "MONGODB_VERSION",
+      "displayName": "Version of MongoDB Image",
+      "description": "Version of MongoDB image to be used (3.6 or latest).",
+      "value": "3.6",
+      "required": true
+    },
+    {
       "name": "MEMORY_LIMIT",
       "displayName": "Memory Limit",
-      "description": "Maximum amount of memory the Node.js container can use.",
+      "description": "Maximum amount of memory the container can use.",
       "required": true,
       "value": "512Mi"
     },
@@ -305,13 +256,14 @@
     {
       "name": "CONTEXT_DIR",
       "displayName": "Context Directory",
-      "description": "Set this to the relative path to your project if it is not in the root of your repository."
+      "description": "Set this to the relative path to your project if it is not in the root of your repository.",
+      "value": "/"
     },
     {
       "name": "APPLICATION_DOMAIN",
       "displayName": "Application Hostname",
-      "description": "The exposed hostname that will route to the Node.js service, if left blank a value will be defaulted.",
-      "value": ""
+      "description": "The exposed hostname that will route to the service, if left blank a value will be defaulted.",
+      "value": "apps.ocpdtq.labcorp.com"
     },
     {
       "name": "GITHUB_WEBHOOK_SECRET",
@@ -353,12 +305,6 @@
       "description": "Password for the database admin user.",
       "generate": "expression",
       "from": "[a-zA-Z0-9]{16}"
-    },
-    {
-      "name": "NPM_MIRROR",
-      "displayName": "Custom NPM Mirror URL",
-      "description": "The custom NPM mirror URL",
-      "value": ""
     }
   ]
 }
