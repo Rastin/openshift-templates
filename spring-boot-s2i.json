@@ -110,12 +110,19 @@
             },
             "type": "Git"
         },
+
+        
         "strategy": {
-            "dockerStrategy": {
-                "dockerfilePath": "Dockerfile"
-            },
-            "type": "Docker"
-        },
+          "sourceStrategy": {
+            "from": {
+                "kind": "ImageStreamTag",
+                "namespace": "openshift",
+                "name": "java:openjdk-11-el7"
+            }
+          },
+          "type": "Source"
+        }, 
+
         "output": {
             "to": {
               "kind": "ImageStreamTag",
